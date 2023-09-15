@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Config and data
+.env
+data/*
+config/*
+
+# Poetry
+.poetry/
+.venv/
+.idea/
+
+# Streamlit
+.cache/
+streamlit_app.log
