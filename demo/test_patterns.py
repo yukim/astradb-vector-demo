@@ -97,7 +97,7 @@ class CohereTestPattern(TestPattern):
     ```
     """
 
-    def __init__(self, session: Session, model_name: str, api_key: str, keyspace: str):
+    def __init__(self, session: Session, model_name: str, api_key: str, keyspace: str, table_name: str):
         super().__init__(session=session, keyspace=keyspace)
 
         self.model_name = model_name
@@ -106,7 +106,7 @@ class CohereTestPattern(TestPattern):
         self._vstore = Cassandra(embedding=self.embeddings,
                                  session=session,
                                  keyspace=keyspace,
-                                 table_name='bench_cohere')
+                                 table_name=table_name)
 
     def vectore_store(self) -> VectorStore:
         return self._vstore

@@ -1,33 +1,22 @@
 [tool.poetry]
-name = "thai-eval"
+name = "astra-vector-demo"
 version = "0.1.0"
 description = ""
 authors = ["Yuki Morishita <mor.yuki@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = ">=3.9,<3.9.7 || >3.9.7,<4.0"
 langchain = "^0.0.279"
-huggingface-hub = "^0.16.4"
-polars = "^0.19.2"
 cassandra-driver = "^3.28.0"
-sentence-transformers = {extras = ["cpu"], version = "^2.2.2"}
-torch = {version = "^2.0.1+cpu", platform = "linux", source = "pytorch"}
 cohere = "^4.23"
 cassio = "^0.1.1"
-datasets = "^2.14.5"
 streamlit = "^1.26.0"
 python-dotenv = "^1.0.0"
+openai = "^0.28.0"
+tiktoken = "^0.5.1"
+datasets = "^2.14.5"
 
-
-[tool.poetry.group.dev.dependencies]
-ipykernel = "^6.25.1"
-
-
-[[tool.poetry.source]]
-name = "pytorch"
-url = "https://download.pytorch.org/whl/cpu"
-priority = "explicit"
 
 [build-system]
 requires = ["poetry-core"]
