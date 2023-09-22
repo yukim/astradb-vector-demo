@@ -121,7 +121,7 @@ def create_chatbot(lang: str):
     retriever = AstraProductRetriever(
         session=session, embedding=embedding, lang=lang)
     retriever_tool = create_retriever_tool(
-        retriever, "products_retrevier", "Useful when searching for products from a product description.")
+        retriever, "products_retrevier", "Useful when searching for products from a product description. Prices are in THB.")
     system_message = "You are a customer service of a home improvement store and you are asked to pick products for a customer."
     if lang == "Thai":
         system_message = f"{system_message} All the responses should be in Thai language."
