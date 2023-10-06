@@ -38,19 +38,20 @@ class AstraProductRetriever(BaseRetriever):
     def get_relevant_documents(self, query):
         docs = []
         embeddingvector = self.embedding.embed_query(query)
-        self.search_statement = self.session.prepare("""
-            SELECT
-                product_id,
-                brand,
-                saleprice,
-                product_categories,
-                product_name_en,
-                short_description_en,
-                long_description_en
-            FROM hybridretail.products_cg_hybrid
-            ORDER BY openai_description_embedding_en ANN OF ?
-            LIMIT ?
-            """)
+        if self.search_statement is None:
+            self.search_statement = self.session.prepare("""
+                SELECT
+                    product_id,
+                    brand,
+                    saleprice,
+                    product_categories,
+                    product_name_en,
+                    short_description_en,
+                    long_description_en
+                FROM hybridretail.products_cg_hybrid
+                ORDER BY openai_description_embedding_en ANN OF ?
+                LIMIT ?
+                """)
         query = self.search_statement
         results = self.session.execute(query, [embeddingvector, 5])
         top_products = results._current_rows
@@ -110,7 +111,9 @@ def create_chatbot(model="gpt-3.5-turbo"):
     retriever_tool = create_retriever_tool(
         retriever,
         "products_retriever",
-        "Useful when searching for products from a product description. Prices are in THB. When calling this tool, translate arguments to English.")
+        "Useful when searching for products from a product description. \
+        Prices are in THB. When calling this tool, include as much detail as possible, \
+        and translate arguments to English.")
     # Define system message
     # Here, we instruct the agent to create a hyperlink on product id, display product description also,
     # and respond in the same language as the user used
@@ -134,6 +137,7 @@ chatbot = create_chatbot(OPENAI_MODEL)
 
 if st.button("Clear chat history"):
     st.session_state['history'] = []
+    chatbot.memory.clear()
 
 # Display chat messages from history on app rerun
 for (query, answer) in st.session_state['history']:
